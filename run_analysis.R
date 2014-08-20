@@ -66,3 +66,13 @@ rm(subject, testSubject, trainSubject)
 data <- data[, c(68:67, 1:66)]
 
 
+## 5. Create a tidy data set
+tidySet <- aggregate(data[,3] ~ subject + activityName, data=data, FUN="mean")
+
+for(i in 4:ncol(data)){
+	tidySet[,i] <- aggregate(data[,i] ~ subject + activityName, data=data, FUN="mean")[,3]
+}
+
+names(tidySet) <- names(data)
+
+write.table(tidySet, file="tidySet.txt", row.names=FALSE)
